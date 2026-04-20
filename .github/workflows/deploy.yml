@@ -42,7 +42,7 @@ jobs:
             --offline
             --no-progress
             --config .lychee.toml
-            --base docs/.vitepress/dist
+            --base ${{ github.workspace }}/docs/.vitepress/dist
             "docs/.vitepress/dist/**/*.html"
           fail: true
 
