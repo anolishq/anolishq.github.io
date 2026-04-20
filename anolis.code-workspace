@@ -1,0 +1,29 @@
+{
+	"folders": [
+		{
+			"path": "../anolis"
+		},
+		{
+			"path": "."
+		},
+		{
+			"path": "../anolis-protocol"
+		},
+		{
+			"path": "../anolis-provider-bread"
+		},
+		{
+			"path": "../anolis-provider-ezo"
+		},
+		{
+			"path": "../anolis-provider-sim"
+		},
+		{
+			"path": "../anolis-workbench"
+		},
+		{
+			"path": "../fluxgraph"
+		}
+	],
+	"settings": {}
+}
