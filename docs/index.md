@@ -15,24 +15,24 @@ hero:
 
 features:
   - title: anolis
-    details: Behavior-tree runtime. Orchestrates providers, manages signals, runs automation.
+    details: Runtime kernel — device discovery, state management, and control routing.
     link: /repos/anolis/
   - title: anolis-protocol
-    details: Anolis Device Provider Protocol (ADPP). Language-agnostic contract between runtime and providers.
+    details: ADPP — language-agnostic contract between runtime and providers.
     link: /repos/anolis-protocol/
   - title: fluxgraph
-    details: Protocol-agnostic graph-based simulation library with deterministic execution.
+    details: Deterministic signal processing library embedded in provider-sim.
     link: /repos/fluxgraph/
   - title: anolis-workbench
-    details: Commissioning tooling and system composer for planning and configuring deployments.
+    details: Commissioning shell and system composer.
     link: /repos/anolis-workbench/
   - title: anolis-provider-sim
-    details: Simulation provider — virtual device backend for development and testing.
+    details: Simulation provider — virtual hardware backend for development and testing.
     link: /repos/anolis-provider-sim/
   - title: anolis-provider-ezo
-    details: EZO circuit provider — Atlas Scientific I2C sensor integration.
+    details: Atlas Scientific EZO sensor provider over I2C.
     link: /repos/anolis-provider-ezo/
   - title: anolis-provider-bread
-    details: Breadboard/GPIO provider for direct hardware signal access.
+    details: BREAD-over-CRUMBS hardware provider over I2C.
     link: /repos/anolis-provider-bread/
 ---

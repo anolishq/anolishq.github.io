@@ -12,11 +12,11 @@ The org is split across focused repos. Each has a defined role. Nothing crosses 
 |---|---|---|
 | [anolis](/repos/anolis/) | C++ | Runtime kernel — the operational brain |
 | [anolis-protocol](/repos/anolis-protocol/) | Protobuf | ADPP — the contract between runtime and providers |
-| [anolis-provider-sim](/repos/anolis-provider-sim/) | C++ | Simulation provider — virtual hardware for dev and test |
-| [anolis-provider-bread](/repos/anolis-provider-bread/) | C++ | BREAD-over-CRUMBS hardware provider (I2C) |
-| [anolis-provider-ezo](/repos/anolis-provider-ezo/) | C++ | Atlas Scientific EZO sensor provider (I2C) |
-| [anolis-workbench](/repos/anolis-workbench/) | Python | Commissioning shell — compose, test, and package deployments |
-| [fluxgraph](/repos/fluxgraph/) | C++ | Signal processing library — embedded in provider-sim for physics |
+| [anolis-provider-sim](/repos/anolis-provider-sim/) | C++ | Simulation provider — virtual hardware backend for development and testing |
+| [anolis-provider-bread](/repos/anolis-provider-bread/) | C++ | BREAD-over-CRUMBS hardware provider over I2C |
+| [anolis-provider-ezo](/repos/anolis-provider-ezo/) | C++ | Atlas Scientific EZO sensor provider over I2C |
+| [anolis-workbench](/repos/anolis-workbench/) | Python | Commissioning shell and system composer |
+| [fluxgraph](/repos/fluxgraph/) | C++ | Deterministic signal processing library embedded in provider-sim |
 
 ---
 
