@@ -84,11 +84,15 @@ function sectionSidebar(name: string, title: string): Record<string, SidebarItem
 export default defineConfig({
   title: "Anolis Docs",
   description: "Unified documentation for the anolishq org.",
+  head: [
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
+  ],
 
   // Keep dead-link checking strict. CI runs generation before VitePress build.
   ignoreDeadLinks: false,
 
   themeConfig: {
+    logo: '/assets/brand/anolis-logo-512.png',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Architecture', link: '/architecture/' },

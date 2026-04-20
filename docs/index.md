@@ -5,6 +5,9 @@ hero:
   name: "Anolis Docs"
   text: "Unified documentation for the anolishq org."
   tagline: Runtime automation · Device protocols · Simulation · Tooling
+  image:
+    src: /assets/brand/anolis-logo-1024.png
+    alt: Anolis logo
   actions:
     - theme: brand
       text: Architecture
