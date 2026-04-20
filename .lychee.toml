@@ -1,0 +1,20 @@
+# Lychee link checker configuration.
+# Runs in CI against the built HTML dist to catch broken internal links.
+# External URLs are excluded — too unreliable for CI (rate limits, flakiness).
+
+# Skip external URLs and non-navigable schemes.
+exclude = [
+  "^https?://",
+  "^mailto:",
+  "^javascript:",
+]
+
+# Skip VitePress asset files — hashes change on every build and are not
+# navigable pages, so checking them adds noise without value.
+exclude_path = [
+  "docs/.vitepress/dist/assets",
+]
+
+# HTTP/S accepted response codes (unused when --offline, but kept for
+# future external-link audits run separately).
+accept = ["200", "206", "429"]

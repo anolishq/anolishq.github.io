@@ -33,6 +33,19 @@ jobs:
 
       - run: pnpm build
 
+      - name: Check internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          # --offline: skip HTTP/HTTPS, check only local filesystem links.
+          # --base: resolve absolute paths (e.g. /repos/anolis/) against dist.
+          args: >-
+            --offline
+            --no-progress
+            --config .lychee.toml
+            --base docs/.vitepress/dist
+            "docs/.vitepress/dist/**/*.html"
+          fail: true
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: docs/.vitepress/dist
