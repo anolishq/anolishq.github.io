@@ -33,18 +33,9 @@ jobs:
 
       - run: pnpm build
 
-      - name: Check internal links
-        uses: lycheeverse/lychee-action@v2
-        with:
-          # --offline: skip HTTP/HTTPS, check only local filesystem links.
-          # --base: resolve absolute paths (e.g. /repos/anolis/) against dist.
-          args: >-
-            --offline
-            --no-progress
-            --config .lychee.toml
-            --base ${{ github.workspace }}/docs/.vitepress/dist
-            "docs/.vitepress/dist/**/*.html"
-          fail: true
+      # Note: VitePress validates dead links at build time (ignoreDeadLinks: false).
+      # Lychee was removed — it struggles with VitePress clean URLs and root-relative
+      # asset paths, producing false positives. VitePress build-time checking is sufficient.
 
       - uses: actions/upload-pages-artifact@v3
         with:
