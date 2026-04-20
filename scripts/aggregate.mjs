@@ -41,11 +41,25 @@ async function hasEntryPoint(dir) {
   return false;
 }
 
+// Preserve static index.md (committed to repo, not generated)
+const staticIndex = path.join(OUT, "index.md");
+let savedIndex = null;
+try {
+  savedIndex = await fs.readFile(staticIndex, "utf-8");
+} catch {
+  // no static index to preserve
+}
+
 // Clean previous outputs
 await fs.rm(TMP, { recursive: true, force: true });
 await fs.rm(OUT, { recursive: true, force: true });
 await fs.mkdir(TMP, { recursive: true });
 await fs.mkdir(OUT, { recursive: true });
+
+// Restore static index.md
+if (savedIndex !== null) {
+  await fs.writeFile(staticIndex, savedIndex);
+}
 
 for (const r of repos) {
   console.log(`Aggregating: ${r.name}`);
