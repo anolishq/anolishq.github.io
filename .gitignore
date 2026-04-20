@@ -106,6 +106,7 @@ dist
 
 # aggregation outputs (generated at build time — do not commit)
 docs/repos/
+!docs/repos/index.md
 docs/reference/
 .tmp/
 
