@@ -85,12 +85,8 @@ export default defineConfig({
   title: "Anolis Docs",
   description: "Unified documentation for the anolishq org.",
 
-  // /repos/* and /reference/* are populated by scripts at build time and
-  // will not exist in a bare checkout. Suppress dead-link errors for them.
-  ignoreDeadLinks: [
-    /^\/repos\//,
-    /^\/reference\//,
-  ],
+  // Keep dead-link checking strict. CI runs generation before VitePress build.
+  ignoreDeadLinks: false,
 
   themeConfig: {
     nav: [
@@ -117,4 +113,3 @@ export default defineConfig({
     ]
   }
 })
-
