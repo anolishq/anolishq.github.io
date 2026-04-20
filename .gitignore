@@ -146,3 +146,6 @@ vite.config.ts.timestamp-*
 # personal files
 working/
 
+
+# VS Code workspace file
+*.code-workspace
