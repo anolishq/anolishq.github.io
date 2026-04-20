@@ -1,0 +1,39 @@
+[
+  {
+    "name": "anolis",
+    "repo": "anolishq/anolis",
+    "docsPath": "docs",
+    "specPath": "docs/http"
+  },
+  {
+    "name": "anolis-protocol",
+    "repo": "anolishq/anolis-protocol",
+    "docsPath": "docs",
+    "specPath": "proto/anolis/deviceprovider/v1"
+  },
+  {
+    "name": "anolis-provider-bread",
+    "repo": "anolishq/anolis-provider-bread",
+    "docsPath": "docs"
+  },
+  {
+    "name": "anolis-provider-ezo",
+    "repo": "anolishq/anolis-provider-ezo",
+    "docsPath": "docs"
+  },
+  {
+    "name": "anolis-provider-sim",
+    "repo": "anolishq/anolis-provider-sim",
+    "docsPath": "docs"
+  },
+  {
+    "name": "anolis-workbench",
+    "repo": "anolishq/anolis-workbench",
+    "docsPath": "docs"
+  },
+  {
+    "name": "fluxgraph",
+    "repo": "anolishq/fluxgraph",
+    "docsPath": "docs"
+  }
+]

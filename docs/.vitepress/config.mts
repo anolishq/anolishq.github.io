@@ -3,26 +3,24 @@ import { defineConfig } from 'vitepress'
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: "Anolis Docs",
-  description: "VitePress Site for the anolis docs.",
+  description: "Unified documentation for the anolishq org.",
   themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Architecture', link: '/architecture/' },
+      { text: 'Guides', link: '/guides/' },
+      { text: 'Repos', link: '/repos/' },
+      { text: 'Reference', link: '/reference/' }
     ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: {},
+
+    search: {
+      provider: 'local'
+    },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/anolishq' }
     ]
   }
 })

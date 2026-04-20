@@ -1,7 +1,19 @@
 {
+  "name": "anolishq-docs",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "aggregate": "node scripts/aggregate.mjs",
+    "dev": "vitepress dev docs",
+    "build": "node scripts/aggregate.mjs && node scripts/generate-reference.mjs && vitepress build docs",
+    "preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild"]
   }
 }
