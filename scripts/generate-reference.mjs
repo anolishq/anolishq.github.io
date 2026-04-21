@@ -7,6 +7,15 @@ import { fileURLToPath } from "url";
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../../");
 const TMP = path.join(ROOT, ".tmp");
 const OUT = path.join(ROOT, "docs/reference");
+const SCHEMAS_PUBLIC = path.join(ROOT, "docs/public/schemas/anolis");
+const PIN_FILE = path.join(ROOT, "schemas/anolis-version.json");
+
+const pin = JSON.parse(await fs.readFile(PIN_FILE, "utf-8"));
+const ANOLIS_VERSION = pin.anolis_version;
+const ANOLIS_PROTOCOL_VERSION = pin.anolis_protocol_version;
+
+if (!ANOLIS_VERSION) { console.error(`ERROR: anolis_version missing in ${PIN_FILE}`); process.exit(1); }
+if (!ANOLIS_PROTOCOL_VERSION) { console.error(`ERROR: anolis_protocol_version missing in ${PIN_FILE}`); process.exit(1); }
 
 const repos = JSON.parse(
   await fs.readFile(path.join(ROOT, "data/repos.json"), "utf-8")
@@ -53,13 +62,16 @@ function relPosix(base, absPath) {
   return path.relative(base, absPath).split(path.sep).join("/");
 }
 
-function ensureCheckout(repo) {
-  const checkout = path.join(TMP, repo.name);
+function ensureCheckout(repo, tag) {
+  const dirName = tag ? `${repo.name}-${tag}` : repo.name;
+  const checkout = path.join(TMP, dirName);
   if (!existsSync(checkout)) {
-    console.log(`Reference: cloning ${repo.repo}`);
-    execFileSync("git", ["clone", "--depth=1", `https://github.com/${repo.repo}.git`, checkout], {
-      stdio: "inherit",
-    });
+    const label = tag ? `${repo.repo}@v${tag}` : repo.repo;
+    console.log(`Reference: cloning ${label}`);
+    const cloneArgs = tag
+      ? ["clone", "--depth=1", "--branch", `v${tag}`, `https://github.com/${repo.repo}.git`, checkout]
+      : ["clone", "--depth=1", `https://github.com/${repo.repo}.git`, checkout];
+    execFileSync("git", cloneArgs, { stdio: "inherit" });
   }
   return checkout;
 }
@@ -160,36 +172,23 @@ function protoSymbols(text) {
 }
 
 async function generateAnolisRuntimeReference(repo) {
-  const repoRoot = ensureCheckout(repo);
-  const specRoot = path.join(repoRoot, repo.specPath);
+  // Use the already-injected OpenAPI file rather than cloning anolis at floating
+  // main. This keeps the reference page consistent with the pinned schema version
+  // declared in schemas/anolis-version.json.
+  const injectedOpenApi = path.join(SCHEMAS_PUBLIC, "http", "runtime-http.openapi.v0.yaml");
 
-  if (!(await exists(specRoot))) {
-    fail(`Reference input missing for ${repo.name}: ${repo.specPath}`);
-  }
-
-  const allFiles = await walkFiles(repoRoot);
-  const openApiCandidates = allFiles
-    .filter((f) => /\.(ya?ml|json)$/i.test(f))
-    .filter((f) => /openapi/i.test(path.basename(f)))
-    .filter((f) => /schemas[\\/]+http|docs[\\/]+http/i.test(f))
-    .sort((a, b) => a.localeCompare(b));
-
-  if (openApiCandidates.length === 0) {
+  if (!(await exists(injectedOpenApi))) {
     fail(
-      `No OpenAPI file found for ${repo.name}. Checked repo for filenames containing 'openapi' under HTTP-related paths.`
+      `Injected OpenAPI file not found at ${injectedOpenApi}.\n` +
+      `Run scripts/inject-schemas.sh first (or check schemas/anolis-version.json).`
     );
   }
 
-  const openApiFile = openApiCandidates[0];
-  const openApiText = await fs.readFile(openApiFile, "utf-8");
+  const openApiText = await fs.readFile(injectedOpenApi, "utf-8");
   const summary = parseOpenApi(openApiText);
 
-  const specFiles = (await walkFiles(specRoot))
-    .filter((f) => /\.(md|ya?ml|json)$/i.test(f))
-    .sort((a, b) => a.localeCompare(b));
-
-  const repoSha = shortSha(repoRoot);
-  const openApiRel = relPosix(repoRoot, openApiFile);
+  const openApiRel = "schemas/http/runtime-http.openapi.v0.yaml";
+  const releaseTag = `v${ANOLIS_VERSION}`;
 
   const endpointRows =
     summary.pathMethods.length === 0
@@ -209,29 +208,21 @@ async function generateAnolisRuntimeReference(repo) {
           ...summary.schemas.map((s) => `| \`${s}\` |`),
         ].join("\n");
 
-  const sourcesRows =
-    specFiles.length === 0
-      ? "_No files found under configured spec path._"
-      : [
-          "| Source File |",
-          "|---|",
-          ...specFiles.map((f) => {
-            const rel = relPosix(repoRoot, f);
-            return `| [\`${rel}\`](https://github.com/${repo.repo}/blob/main/${rel}) |`;
-          }),
-        ].join("\n");
+  const sourcesRows = `[\`${openApiRel}\`](https://github.com/${repo.repo}/blob/${releaseTag}/${openApiRel})`;
 
   const body = [
     "# Runtime HTTP API Reference",
     "",
-    `Generated from [${repo.repo}](https://github.com/${repo.repo}) @ \`${repoSha}\`. ` +
-      `Configured spec path: \`${repo.specPath}\`.`,
+    `Schema version: [${releaseTag}](https://github.com/${repo.repo}/releases/tag/${releaseTag}) — ` +
+      `source [\`${openApiRel}\`](https://github.com/${repo.repo}/blob/${releaseTag}/${openApiRel}).`,
+    "",
+    `> Pin: \`schemas/anolis-version.json\` → \`anolis_version: ${ANOLIS_VERSION}\``,
     "",
     "## OpenAPI Summary",
     "",
     `- Title: **${summary.title}**`,
     `- Version: **${summary.version}**`,
-    `- Source: [\`${openApiRel}\`](https://github.com/${repo.repo}/blob/main/${openApiRel})`,
+    `- Source: ${sourcesRows}`,
     "",
     "## Endpoints",
     "",
@@ -240,10 +231,6 @@ async function generateAnolisRuntimeReference(repo) {
     "## Schemas",
     "",
     schemaRows,
-    "",
-    "## Reference Sources",
-    "",
-    sourcesRows,
     "",
   ].join("\n");
 
@@ -256,8 +243,11 @@ async function generateAnolisRuntimeReference(repo) {
 }
 
 async function generateAdppReference(repo) {
-  const repoRoot = ensureCheckout(repo);
+  // Clone at the pinned tag rather than floating main so the reference stays
+  // consistent with schemas/anolis-version.json.
+  const repoRoot = ensureCheckout(repo, ANOLIS_PROTOCOL_VERSION);
   const specRoot = path.join(repoRoot, repo.specPath);
+  const releaseTag = `v${ANOLIS_PROTOCOL_VERSION}`;
 
   if (!(await exists(specRoot))) {
     fail(`Reference input missing for ${repo.name}: ${repo.specPath}`);
@@ -297,14 +287,12 @@ async function generateAdppReference(repo) {
     });
   }
 
-  const repoSha = shortSha(repoRoot);
-
   const fileTable = [
     "| Proto File | Package | Messages | Enums | Services | RPCs |",
     "|---|---|---:|---:|---:|---:|",
     ...fileSummaries.map(
       (f) =>
-        `| [\`${f.rel}\`](https://github.com/${repo.repo}/blob/main/${f.rel}) | \`${f.packageName}\` | ` +
+        `| [\`${f.rel}\`](https://github.com/${repo.repo}/blob/${releaseTag}/${f.rel}) | \`${f.packageName}\` | ` +
         `${f.messages.length} | ${f.enums.length} | ${f.services.length} | ${f.rpcs.length} |`
     ),
   ].join("\n");
@@ -315,8 +303,10 @@ async function generateAdppReference(repo) {
   const body = [
     "# ADPP Protocol Reference",
     "",
-    `Generated from [${repo.repo}](https://github.com/${repo.repo}) @ \`${repoSha}\`. ` +
-      `Configured spec path: \`${repo.specPath}\`.`,
+    `Schema version: [${releaseTag}](https://github.com/${repo.repo}/releases/tag/${releaseTag}) — ` +
+      `proto path \`${repo.specPath}\`.`,
+    "",
+    `> Pin: \`schemas/anolis-version.json\` → \`anolis_protocol_version: ${ANOLIS_PROTOCOL_VERSION}\``,
     "",
     "## Overview",
     "",
@@ -389,6 +379,108 @@ async function generateGenericSpecReference(repo) {
   };
 }
 
+async function generateSchemasReference() {
+  // Read each injected schema file to extract $id, title, and description.
+  const schemas = [
+    {
+      file: path.join(SCHEMAS_PUBLIC, "runtime", "runtime-config.schema.json"),
+      url: "/schemas/anolis/runtime/runtime-config.schema.json",
+      label: "Runtime Config",
+      fallbackDesc: "JSON Schema for anolis-runtime YAML config files.",
+    },
+    {
+      file: path.join(SCHEMAS_PUBLIC, "machine", "machine-profile.schema.json"),
+      url: "/schemas/anolis/machine/machine-profile.schema.json",
+      label: "Machine Profile",
+      fallbackDesc: "JSON Schema for machine package manifests.",
+    },
+    {
+      file: path.join(SCHEMAS_PUBLIC, "telemetry", "telemetry-timeseries.schema.v1.json"),
+      url: "/schemas/anolis/telemetry/telemetry-timeseries.schema.v1.json",
+      label: "Telemetry Timeseries",
+      fallbackDesc: "JSON Schema for telemetry export time-series records.",
+    },
+  ];
+
+  const rows = [];
+  for (const s of schemas) {
+    let desc = s.fallbackDesc;
+    let id = s.url;
+    if (await exists(s.file)) {
+      try {
+        const raw = JSON.parse(await fs.readFile(s.file, "utf-8"));
+        if (raw.description) desc = raw.description;
+        if (raw.$id) id = raw.$id;
+      } catch {
+        // keep fallback
+      }
+    } else {
+      console.warn(`  Warning: injected schema not found: ${s.file}`);
+    }
+    rows.push({ label: s.label, id, desc });
+  }
+
+  const releaseTag = `v${ANOLIS_VERSION}`;
+  const baseUrl = "https://anolishq.github.io";
+
+  const tableRows = rows.map(
+    (r) => `| [${r.label}](${r.id}) | \`${r.id}\` | ${r.desc} |`
+  );
+
+  const body = [
+    "# Schema Reference",
+    "",
+    `Canonical JSON Schemas published from [anolishq/anolis](https://github.com/anolishq/anolis) ` +
+      `[${releaseTag}](https://github.com/anolishq/anolis/releases/tag/${releaseTag}).`,
+    "",
+    `> Pin: \`schemas/anolis-version.json\` → \`anolis_version: ${ANOLIS_VERSION}\``,
+    "",
+    "These URLs are stable and resolve to the current pinned schema version:",
+    "",
+    "| Schema | \`$id\` / URL | Description |",
+    "|---|---|---|",
+    ...tableRows,
+    "",
+    "## OpenAPI Contract",
+    "",
+    `| Contract | URL | Description |`,
+    `|---|---|---|`,
+    `| Runtime HTTP API | [${baseUrl}/schemas/anolis/http/runtime-http.openapi.v0.yaml](${baseUrl}/schemas/anolis/http/runtime-http.openapi.v0.yaml) | OpenAPI 3.x contract for the runtime \`/v0\` HTTP surface. |`,
+    "",
+    "## Usage",
+    "",
+    "### VS Code / editor tooling",
+    "",
+    "Add a `yaml.schemas` entry to `.vscode/settings.json`:",
+    "",
+    "```json",
+    "{",
+    `  "yaml.schemas": {`,
+    `    "${baseUrl}/schemas/anolis/runtime/runtime-config.schema.json": "config/anolis-runtime*.yaml",`,
+    `    "${baseUrl}/schemas/anolis/machine/machine-profile.schema.json": "config/**/machine-profile.yaml"`,
+    "  }",
+    "}",
+    "```",
+    "",
+    "### Python / jsonschema",
+    "",
+    "```python",
+    "import urllib.request, json, jsonschema",
+    `url = \"${baseUrl}/schemas/anolis/runtime/runtime-config.schema.json\"`,
+    "schema = json.loads(urllib.request.urlopen(url).read())",
+    "jsonschema.validate(instance=config, schema=schema)",
+    "```",
+    "",
+  ].join("\n");
+
+  return {
+    fileName: "schemas.md",
+    title: "Schemas",
+    description: `JSON Schema and OpenAPI contracts published from anolishq/anolis ${releaseTag}.`,
+    body,
+  };
+}
+
 if (specRepos.length === 0) {
   fail("No repositories with specPath configured in data/repos.json");
 }
@@ -397,6 +489,10 @@ await fs.rm(OUT, { recursive: true, force: true });
 await fs.mkdir(OUT, { recursive: true });
 
 const pages = [];
+
+// Schema reference is not repo-specific — built from injected files + pin.
+console.log("Reference: generating schemas page");
+pages.push(await generateSchemasReference());
 
 for (const repo of specRepos) {
   console.log(`Reference: generating for ${repo.name}`);
@@ -427,7 +523,8 @@ const indexBody = [
   "",
   "## Inputs",
   "",
-  ...specRepos.map((r) => `- \`${r.name}\`: repo \`${r.repo}\`, specPath \`${r.specPath}\``),
+  `- \`anolis\`: pinned to \`v${ANOLIS_VERSION}\` via \`schemas/anolis-version.json\``,
+  `- \`anolis-protocol\`: pinned to \`v${ANOLIS_PROTOCOL_VERSION}\` via \`schemas/anolis-version.json\``,
   "",
 ].join("\n");
 
