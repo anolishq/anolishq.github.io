@@ -34,6 +34,9 @@ Build full site (aggregate + reference + VitePress):
 pnpm build
 ```
 
+`pnpm build` also injects the pinned published schema artifacts into `docs/public/schemas/anolis/`
+before reference generation, so local builds match the Pages build path.
+
 Preview built output:
 
 ```bash
@@ -64,7 +67,8 @@ Do not manually edit generated files. Change source repos or generator scripts i
 1. Build fails during aggregation:
    Confirm each repo/path in `data/repos.json` exists and is accessible.
 2. Reference generation fails:
-   Confirm required `specPath` directories exist in source repos.
+   Confirm required `specPath` directories exist in source repos and that the pinned
+   schema release in `schemas/anolis-version.json` is published and reachable.
 3. Dead-link build errors:
    Update links or generated content. Dead-link checks are intentionally strict.
 4. Local `pnpm` in WSL fails to find `node`:

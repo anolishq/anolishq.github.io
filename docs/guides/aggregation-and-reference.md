@@ -7,7 +7,16 @@ This site is assembled from generated content plus authored pages.
 1. Repository metadata in `data/repos.json`
 2. Authored site pages under `docs/`:
    `index.md`, `architecture/`, `guides/`, and `repos/index.md`
-3. Generator scripts under `scripts/`
+3. Pinned schema versions in `schemas/anolis-version.json`
+4. Generator scripts under `scripts/`
+
+## Schema Injection
+
+`scripts/inject-schemas.mjs` fetches pinned release artifacts from `anolishq/anolis`
+and writes them to `docs/public/schemas/anolis/` so VitePress serves them directly.
+
+These injected files are used both as published static assets and as inputs to
+reference generation.
 
 ## Repo Docs Aggregation
 
@@ -34,14 +43,16 @@ Today the implementation is a minimal placeholder. The intended completed behavi
 
 `pnpm build` runs:
 
-1. `node scripts/aggregate.mjs`
-2. `node scripts/generate-reference.mjs`
-3. `vitepress build docs`
+1. `node scripts/inject-schemas.mjs`
+2. `node scripts/aggregate.mjs`
+3. `node scripts/generate-reference.mjs`
+4. `vitepress build docs`
 
 ## Output Directories
 
-1. `docs/repos/`: generated from source repositories
-2. `docs/reference/`: generated reference content
-3. `docs/.vitepress/dist/`: static site output
+1. `docs/public/schemas/anolis/`: injected pinned schema artifacts
+2. `docs/repos/`: generated from source repositories
+3. `docs/reference/`: generated reference content
+4. `docs/.vitepress/dist/`: static site output
 
 Temporary clones are written to `.tmp/` and should not be committed.

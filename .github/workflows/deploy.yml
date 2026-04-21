@@ -31,9 +31,6 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Inject anolis schemas
-        run: bash scripts/inject-schemas.sh
-
       - run: pnpm build
 
       # Note: VitePress validates dead links at build time (ignoreDeadLinks: false).

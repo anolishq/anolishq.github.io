@@ -7,7 +7,8 @@
   "scripts": {
     "aggregate": "node scripts/aggregate.mjs",
     "dev": "vitepress dev docs",
-    "build": "node scripts/aggregate.mjs && node scripts/generate-reference.mjs && vitepress build docs",
+    "inject-schemas": "node scripts/inject-schemas.mjs",
+    "build": "node scripts/inject-schemas.mjs && node scripts/aggregate.mjs && node scripts/generate-reference.mjs && vitepress build docs",
     "preview": "vitepress preview docs"
   },
   "devDependencies": {

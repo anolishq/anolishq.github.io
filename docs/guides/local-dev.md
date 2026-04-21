@@ -28,11 +28,12 @@ This starts the VitePress development server for the `docs/` directory.
 pnpm build
 ```
 
-Build performs three steps:
+Build performs four steps:
 
-1. Aggregates repo docs into `docs/repos/`
-2. Generates reference docs into `docs/reference/`
-3. Runs `vitepress build docs`
+1. Injects pinned schema artifacts into `docs/public/schemas/anolis/`
+2. Aggregates repo docs into `docs/repos/`
+3. Generates reference docs into `docs/reference/`
+4. Runs `vitepress build docs`
 
 ## Preview Production Output
 
@@ -46,5 +47,7 @@ pnpm preview
    Check `data/repos.json` and confirm each repo has the configured docs path.
 2. Missing pages in sidebar:
    Confirm each section has markdown files with valid `index.md` or `README.md` entry points where expected.
-3. Broken links after docs changes:
+3. Build fails while injecting schemas:
+   Confirm the pinned `anolis_version` in `schemas/anolis-version.json` exists as a GitHub release with the expected schema tarball assets.
+4. Broken links after docs changes:
    Run a full `pnpm build` before opening a PR.
