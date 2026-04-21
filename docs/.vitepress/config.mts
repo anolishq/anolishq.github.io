@@ -98,7 +98,8 @@ export default defineConfig({
       { text: 'Architecture', link: '/architecture/' },
       { text: 'Guides', link: '/guides/' },
       { text: 'Repos', link: '/repos/' },
-      { text: 'Reference', link: '/reference/' }
+      { text: 'Reference', link: '/reference/' },
+      { text: 'Metrics', link: '/metrics' }
     ],
 
     sidebar: {

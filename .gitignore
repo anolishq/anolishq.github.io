@@ -109,6 +109,8 @@ docs/repos/
 !docs/repos/index.md
 docs/reference/
 docs/public/schemas/
+docs/public/metrics/
+docs/metrics.md
 .tmp/
 
 # Docusaurus cache and generated files
