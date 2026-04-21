@@ -108,6 +108,7 @@ dist
 docs/repos/
 !docs/repos/index.md
 docs/reference/
+docs/public/schemas/
 .tmp/
 
 # Docusaurus cache and generated files
