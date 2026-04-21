@@ -8,6 +8,7 @@ hero:
   image:
     src: /assets/brand/anolis-logo-1024.png
     alt: Anolis logo
+    style: "width: 250px;"
   actions:
     - theme: brand
       text: Architecture

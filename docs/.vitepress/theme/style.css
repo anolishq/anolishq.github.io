@@ -110,12 +110,12 @@
   /* Hero */
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(120deg, #4a8e1d 0%, #8acb39 42%, #0ea79c 100%);
-  --vp-home-hero-image-background-image:
-    radial-gradient(circle at 50% 46%, rgba(255, 93, 115, 0.58), transparent 52%),
-    radial-gradient(circle at 22% 30%, rgba(126, 211, 33, 0.22), transparent 30%),
-    radial-gradient(circle at 76% 28%, rgba(14, 191, 178, 0.18), transparent 32%),
-    linear-gradient(135deg, rgba(9, 145, 138, 0.10), rgba(126, 211, 33, 0.08));
-  --vp-home-hero-image-filter: blur(54px);
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #ff5d73 40%,
+    #7fd02b 100%
+  );
+  --vp-home-hero-image-filter: blur(44px);
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -200,11 +200,11 @@
 
   /* Hero */
   --vp-home-hero-name-background: linear-gradient(120deg, #89da39 0%, #b0ee60 36%, #42d0c4 100%);
-  --vp-home-hero-image-background-image:
-    radial-gradient(circle at 50% 46%, rgba(255, 122, 141, 0.52), transparent 52%),
-    radial-gradient(circle at 22% 30%, rgba(149, 225, 61, 0.20), transparent 30%),
-    radial-gradient(circle at 76% 28%, rgba(85, 219, 208, 0.16), transparent 32%),
-    linear-gradient(135deg, rgba(23, 49, 46, 0.92), rgba(17, 32, 29, 0.88));
+  --vp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #ff7a8d 40%,
+    #95e13d 100%
+  );
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -212,11 +212,11 @@
 ══════════════════════════════════════════════════════════════ */
 
 @media (min-width: 640px) {
-  :root { --vp-home-hero-image-filter: blur(68px); }
+  :root { --vp-home-hero-image-filter: blur(56px); }
 }
 
 @media (min-width: 960px) {
-  :root { --vp-home-hero-image-filter: blur(84px); }
+  :root { --vp-home-hero-image-filter: blur(68px); }
 }
 
 /* ══════════════════════════════════════════════════════════════
