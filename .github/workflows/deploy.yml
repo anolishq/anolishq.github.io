@@ -37,7 +37,7 @@ jobs:
       # Lychee was removed — it struggles with VitePress clean URLs and root-relative
       # asset paths, producing false positives. VitePress build-time checking is sufficient.
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: docs/.vitepress/dist
 
