@@ -37,7 +37,7 @@ jobs:
       # Lychee was removed — it struggles with VitePress clean URLs and root-relative
       # asset paths, producing false positives. VitePress build-time checking is sufficient.
 
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5
         with:
           path: docs/.vitepress/dist
 
@@ -49,4 +49,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5
