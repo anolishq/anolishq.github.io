@@ -1,4 +1,4 @@
-name: Docs PR Checks
+name: CI
 
 on:
   pull_request:
@@ -9,12 +9,13 @@ permissions:
   contents: read
 
 concurrency:
-  group: docs-pr-${{ github.event.pull_request.number || github.ref }}
+  group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
@@ -31,3 +32,17 @@ jobs:
 
       - name: Build docs (includes dead-link validation)
         run: pnpm build
+
+  ok:
+    name: ok
+    if: always()
+    needs: [build]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Evaluate job results
+        run: |
+          echo "Job results: ${{ toJSON(needs.*.result) }}"
+      - name: Fail if any required job failed or was cancelled
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
