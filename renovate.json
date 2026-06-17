@@ -1,16 +1,4 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
-  "packageRules": [
-    {
-      "matchManagers": ["github-actions"],
-      "groupName": "github-actions",
-      "pinDigests": true
-    },
-    {
-      "description": "Supply-chain safety: wait 3 days for npm packages",
-      "matchManagers": ["npm"],
-      "minimumReleaseAge": "3 days"
-    }
-  ]
+  "extends": ["local>anolishq/renovate-config"]
 }
