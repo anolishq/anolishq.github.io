@@ -32,6 +32,11 @@ jobs:
 
       - name: Build docs (includes dead-link validation)
         run: pnpm build
+        env:
+          # Authenticate downstream GitHub API/asset fetches to avoid the
+          # unauthenticated rate limit. Missing release assets are non-fatal
+          # on PR builds (GITHUB_EVENT_NAME=pull_request) — see fetch-metrics.mjs.
+          GITHUB_TOKEN: ${{ github.token }}
 
   ok:
     name: ok
