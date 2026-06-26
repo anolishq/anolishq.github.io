@@ -32,6 +32,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm build
+        env:
+          # Authenticate downstream GitHub API/asset fetches to avoid the
+          # unauthenticated rate limit. On main (push) builds, missing assets
+          # remain fatal so the published site is complete.
+          GITHUB_TOKEN: ${{ github.token }}
 
       # Note: VitePress validates dead links at build time (ignoreDeadLinks: false).
       # Lychee was removed — it struggles with VitePress clean URLs and root-relative
