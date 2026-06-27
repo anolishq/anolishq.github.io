@@ -124,7 +124,7 @@ BREAD-over-CRUMBS provider. Scoped to BREAD hardware specifically (not generic C
 
 ### anolis-provider-ezo
 
-Atlas Scientific EZO circuit provider (pH, ORP, EC, DO, RTD, HUM sensors) over I2C. v1 function surface is intentionally limited to safe controls: `find`, `set_led`, `sleep`. Full calibration commands are deferred.
+Atlas Scientific EZO circuit provider (pH, ORP, EC, DO, RTD, HUM sensors) over I2C. v1 function surface is intentionally limited to safe controls: `find`, `set_led`, `sleep`. Full calibration commands are deferred (tracked in [anolis-provider-ezo#90](https://github.com/anolishq/anolis-provider-ezo/issues/90)).
 
 **Shared bus safety:** bread and ezo can share the same Linux I2C adapter. The runtime enforces exclusive `(bus_path, i2c_address)` ownership across all providers at startup — duplicate ownership is a hard startup error.
 
