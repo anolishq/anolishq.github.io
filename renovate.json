@@ -1,4 +1,33 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>anolishq/renovate-config"]
+  "extends": ["local>anolishq/renovate-config"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Bump the anolis schema-injection pin",
+      "managerFilePatterns": ["/^schemas/anolis-version\\.json$/"],
+      "matchStrings": ["\"anolis_version\":\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "anolishq/anolis",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v?(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "Bump the anolis-protocol reference pin",
+      "managerFilePatterns": ["/^schemas/anolis-version\\.json$/"],
+      "matchStrings": ["\"anolis_protocol_version\":\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "anolishq/anolis-protocol",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v?(?<version>.+)$"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Group anolis version-pin updates into a single PR",
+      "matchManagers": ["custom.regex"],
+      "groupName": "anolis version pin",
+      "commitMessagePrefix": "deps:",
+      "semanticCommitType": "deps"
+    }
+  ]
 }
