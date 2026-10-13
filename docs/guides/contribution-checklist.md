@@ -28,6 +28,11 @@ Use this checklist before opening a pull request.
 1. Do not manually edit generated repo docs under `docs/repos/<repo>/`.
 2. Update generators or source repos instead of patching generated files.
 3. Keep `docs/repos/index.md` as the canonical hand-authored repos landing page.
+4. In a source repo's `docs/`, link to any file outside `docs/` with an absolute
+   GitHub URL, `https://github.com/anolishq/<repo>/blob/main/<path>`. Only
+   `docs/` is aggregated, so a relative link out of it is a dead link here and
+   fails the site build, even though it resolves in the source repo. See
+   [Repo Docs Aggregation](./aggregation-and-reference.md#repo-docs-aggregation).
 
 ## CI and Deployment Expectations
 
