@@ -57,13 +57,25 @@ Today the implementation is a minimal placeholder. The intended completed behavi
 1. `node scripts/inject-schemas.mjs`
 2. `node scripts/aggregate.mjs`
 3. `node scripts/generate-reference.mjs`
-4. `vitepress build docs`
+4. `node scripts/fetch-metrics.mjs`: fetches `metrics.json` from each repo's
+   latest release into `docs/public/metrics/`
+5. `node scripts/generate-metrics.mjs`: generates `docs/metrics.md` from the
+   fetched metrics
+6. `vitepress build docs`
+
+CI runs `pnpm build` on every pull request to `main`. The deploy workflow runs
+it on every push to `main` and publishes `docs/.vitepress/dist/` to GitHub
+Pages. On a pull-request build, a release or `metrics.json` that
+`fetch-metrics.mjs` cannot fetch is skipped with a warning; on `main` it fails
+the build.
 
 ## Output Directories
 
 1. `docs/public/schemas/anolis/`: injected pinned schema artifacts
 2. `docs/repos/`: generated from source repositories
 3. `docs/reference/`: generated reference content
-4. `docs/.vitepress/dist/`: static site output
+4. `docs/public/metrics/` and `docs/metrics.md`: fetched metrics and the
+   generated metrics page
+5. `docs/.vitepress/dist/`: static site output
 
 Temporary clones are written to `.tmp/` and should not be committed.
