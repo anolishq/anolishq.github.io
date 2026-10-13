@@ -29,6 +29,17 @@ reference generation.
 
 The static `docs/repos/index.md` is preserved between runs.
 
+Only `<docsPath>` is copied, and VitePress runs with `ignoreDeadLinks: false`.
+A relative link in a repo's docs that leaves `<docsPath>`, such as
+`../schemas/README.md`, resolves in that repo but points nowhere once
+aggregated, and the site build fails. A doc that references a file outside its
+`docs/` must link to it as an absolute GitHub URL:
+`https://github.com/anolishq/<repo>/blob/main/<path>`.
+
+The source repo's own docs check builds its docs in isolation, where the
+relative link resolves, so green CI there does not mean this site builds. To
+confirm a fix, re-run a PR build here, which clones every repo fresh.
+
 ## Reference Generation
 
 `scripts/generate-reference.mjs` generates `docs/reference/`.
