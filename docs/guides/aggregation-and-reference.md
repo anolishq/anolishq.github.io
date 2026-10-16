@@ -42,13 +42,31 @@ confirm a fix, re-run a PR build here, which clones every repo fresh.
 
 ## Reference Generation
 
-`scripts/generate-reference.mjs` generates `docs/reference/`.
+`scripts/generate-reference.mjs` clears `docs/reference/` and writes every
+page into it. Its inputs are pinned in `schemas/anolis-version.json`:
+`anolis_version` for the runtime release and `anolis_protocol_version` for the
+protocol tag.
 
-Today the implementation is a minimal placeholder. The intended completed behavior is:
+It writes four pages:
 
-1. Generate protocol reference from `anolis-protocol`
-2. Generate runtime API reference from `anolis`
-3. Publish a browsable reference index in `docs/reference/index.md`
+1. `runtime-http-api.md`: the runtime HTTP API, built from the OpenAPI file
+   that `inject-schemas.mjs` downloaded from the `anolis_version` release. It
+   does not clone `anolis`.
+2. `adpp-protocol.md`: the ADPP protocol reference, built from the `.proto`
+   files under `proto/anolis/deviceprovider/v1` in `anolis-protocol`, cloned at
+   the `anolis_protocol_version` tag.
+3. `schemas.md`: the injected JSON Schemas and the URL of the published
+   OpenAPI file.
+4. `index.md`: a table linking the other pages, and the two pins.
+
+A repo in `data/repos.json` gets a reference page only if it has a `specPath`.
+Today those are `anolis` and `anolis-protocol`. Any other repo given a
+`specPath` gets a generic page listing the files under that path, cloned from
+its default branch rather than a pinned tag.
+
+The generator reads the injected files and exits with an error when the
+OpenAPI file is missing, so `inject-schemas.mjs` must run first. `pnpm build`
+runs them in that order.
 
 ## Full Build Flow
 
