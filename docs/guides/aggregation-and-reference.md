@@ -59,10 +59,13 @@ It writes four pages:
    OpenAPI file.
 4. `index.md`: a table linking the other pages, and the two pins.
 
-A repo in `data/repos.json` gets a reference page only if it has a `specPath`.
-Today those are `anolis` and `anolis-protocol`. Any other repo given a
-`specPath` gets a generic page listing the files under that path, cloned from
-its default branch rather than a pinned tag.
+A repo in `data/repos.json` gets a reference page only if it has a non-empty
+`specPath`, and its name picks which page. Today those are `anolis` and
+`anolis-protocol`. For `anolis` the `specPath` only turns the page on: nothing
+is read from it, because the page is built from the injected OpenAPI file. For
+`anolis-protocol` the `.proto` files are read from under its `specPath`. Any
+other repo given a `specPath` gets a generic page listing the files under that
+path, cloned from its default branch rather than a pinned tag.
 
 The generator reads the injected files and exits with an error when the
 OpenAPI file is missing, so `inject-schemas.mjs` must run first. `pnpm build`
