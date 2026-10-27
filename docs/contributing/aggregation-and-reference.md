@@ -8,7 +8,7 @@ This site is assembled from generated content plus authored pages.
    from (`ref`), its docs path and, optionally, its spec path. Renovate opens a
    pull request to bump a `ref` when that repository publishes a release.
 2. Authored site pages under `docs/`:
-   `index.md`, `architecture/`, `contributing/`, and `repos/index.md`
+   `index.md`, `get-started/`, `concepts/`, `contributing/`, and `repos/index.md`
 3. Generator scripts under `scripts/`
 
 ## Schema injection
