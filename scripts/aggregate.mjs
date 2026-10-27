@@ -2,27 +2,27 @@ import fs from "fs/promises";
 import path from "path";
 import { execSync } from "child_process";
 import { fileURLToPath } from "url";
+import { repos } from "./repos.mjs";
+import { readIndexIgnore, ignored } from "./indexignore.mjs";
 
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../../");
 const TMP = path.join(ROOT, ".tmp");
 const OUT = path.join(ROOT, "docs/repos");
 
-const repos = JSON.parse(
-  await fs.readFile(path.join(ROOT, "data/repos.json"), "utf-8")
-);
-
 // Exclude files that are tooling artifacts, not documentation content
-const EXCLUDE = new Set(["Doxyfile"]);
+const EXCLUDE = new Set(["Doxyfile", ".indexignore"]);
 
-async function copyDocs(src, dest) {
+async function copyDocs(src, dest, rules, rel = "") {
   await fs.mkdir(dest, { recursive: true });
   const entries = await fs.readdir(src, { withFileTypes: true });
   for (const entry of entries) {
     if (EXCLUDE.has(entry.name)) continue;
+    const relPath = rel ? `${rel}/${entry.name}` : entry.name;
+    if (ignored(rules, relPath, entry.isDirectory())) continue;
     const srcPath = path.join(src, entry.name);
     const destPath = path.join(dest, entry.name);
     if (entry.isDirectory()) {
-      await copyDocs(srcPath, destPath);
+      await copyDocs(srcPath, destPath, rules, relPath);
     } else {
       await fs.copyFile(srcPath, destPath);
     }
@@ -62,11 +62,11 @@ if (savedIndex !== null) {
 }
 
 for (const r of repos) {
-  console.log(`Aggregating: ${r.name}`);
+  console.log(`Aggregating: ${r.name} @ ${r.ref}`);
 
   const cloneTarget = path.join(TMP, r.name);
   execSync(
-    `git clone --depth=1 https://github.com/${r.repo}.git ${cloneTarget}`,
+    `git -c advice.detachedHead=false clone --quiet --depth=1 --branch ${r.ref} https://github.com/${r.repo}.git ${cloneTarget}`,
     { stdio: "inherit" }
   );
 
@@ -79,7 +79,8 @@ for (const r of repos) {
   }
 
   const dest = path.join(OUT, r.name);
-  await copyDocs(srcDocs, dest);
+  const rules = await readIndexIgnore(srcDocs);
+  await copyDocs(srcDocs, dest, rules);
 
   // Generate a minimal stub if no entry point exists
   if (!(await hasEntryPoint(dest))) {

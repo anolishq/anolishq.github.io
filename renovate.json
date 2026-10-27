@@ -1,31 +1,28 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["local>anolishq/renovate-config"],
+  "extends": [
+    "local>anolishq/renovate-config"
+  ],
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Bump the anolis schema-injection pin",
-      "managerFilePatterns": ["/^schemas/anolis-version\\.json$/"],
-      "matchStrings": ["\"anolis_version\":\\s*\"(?<currentValue>[^\"]+)\""],
-      "depNameTemplate": "anolishq/anolis",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v?(?<version>.+)$"
-    },
-    {
-      "customType": "regex",
-      "description": "Bump the anolis-protocol reference pin",
-      "managerFilePatterns": ["/^schemas/anolis-version\\.json$/"],
-      "matchStrings": ["\"anolis_protocol_version\":\\s*\"(?<currentValue>[^\"]+)\""],
-      "depNameTemplate": "anolishq/anolis-protocol",
-      "datasourceTemplate": "github-releases",
-      "extractVersionTemplate": "^v?(?<version>.+)$"
+      "description": "Bump the release each source repository's docs are published from",
+      "managerFilePatterns": [
+        "/^data/repos\\.json$/"
+      ],
+      "matchStrings": [
+        "\"repo\":\\s*\"(?<depName>[^\"]+)\",\\s*\"ref\":\\s*\"(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "github-releases"
     }
   ],
   "packageRules": [
     {
-      "description": "Group anolis version-pin updates into a single PR",
-      "matchManagers": ["custom.regex"],
-      "groupName": "anolis version pin",
+      "description": "Group docs source pin updates into a single PR",
+      "matchManagers": [
+        "custom.regex"
+      ],
+      "groupName": "docs source pins",
       "commitMessagePrefix": "deps:",
       "semanticCommitType": "deps"
     }

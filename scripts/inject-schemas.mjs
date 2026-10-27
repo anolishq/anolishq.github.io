@@ -3,9 +3,9 @@ import os from "os";
 import path from "path";
 import { execFileSync } from "child_process";
 import { fileURLToPath } from "url";
+import { versionOf } from "./repos.mjs";
 
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../../");
-const PIN_FILE = path.join(ROOT, "schemas/anolis-version.json");
 const OUT_BASE = path.join(ROOT, "docs/public/schemas/anolis");
 
 function fail(message) {
@@ -44,16 +44,8 @@ async function fetchWithRetry(url, retries = 3) {
 }
 
 async function main() {
-  if (!(await fileExists(PIN_FILE))) {
-    fail(`schema pin file not found: ${PIN_FILE}`);
-  }
-
-  const pin = JSON.parse(await fs.readFile(PIN_FILE, "utf-8"));
-  const version = pin.anolis_version;
-
-  if (!version) {
-    fail(`anolis_version not set in ${PIN_FILE}`);
-  }
+  // The anolis release the site publishes, from data/repos.json.
+  const version = versionOf("anolis");
 
   console.log(`Injecting anolis schemas v${version} ...`);
 

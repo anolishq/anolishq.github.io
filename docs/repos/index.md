@@ -1,6 +1,6 @@
 # Repos
 
-Documentation on this site is aggregated from each repository's `/docs` directory at build time.
+Documentation on this site is aggregated at build time from each repository's `docs/` directory, at the release tag pinned for it in `data/repos.json`.
 
 Repository sources are configured in `data/repos.json` and copied by `scripts/aggregate.mjs`.
 
@@ -11,6 +11,7 @@ Repository sources are configured in `data/repos.json` and copied by `scripts/ag
 | [anolis-provider-bread](/repos/anolis-provider-bread/) | BREAD-over-CRUMBS hardware provider over I2C |
 | [anolis-provider-ezo](/repos/anolis-provider-ezo/) | Atlas Scientific EZO sensor provider over I2C |
 | [anolis-provider-sim](/repos/anolis-provider-sim/) | Simulation provider — virtual hardware backend for development and testing |
+| [anolis-provider-sdk](/repos/anolis-provider-sdk/) | Shared C++ library the providers are built on: transport, run loop and device model |
 | [anolis-workbench](/repos/anolis-workbench/) | Commissioning shell and system composer |
 | [fluxgraph](/repos/fluxgraph/) | Deterministic signal processing library embedded in provider-sim |
 

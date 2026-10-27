@@ -1,8 +1,9 @@
 /**
  * fetch-metrics.mjs
  *
- * Fetches metrics.json from the latest release of each anolishq repo and
- * writes them to docs/public/metrics/{repo}.json for use at build time.
+ * Fetches metrics.json from the release each repo in data/repos.json is
+ * pinned to ("ref") and writes it to docs/public/metrics/{repo}.json for use
+ * at build time. Repos marked "metrics": false publish no metrics.json.
  *
  * Authenticates with GITHUB_TOKEN when present (set in CI) to avoid the low
  * unauthenticated rate limit. On pull-request builds a missing release or
@@ -15,21 +16,12 @@
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
+import { repos } from "./repos.mjs";
 
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../../");
 const OUT_DIR = path.join(ROOT, "docs/public/metrics");
 
-const REPOS = [
-  "anolis",
-  "anolis-protocol",
-  "anolis-provider-bread",
-  "anolis-provider-ezo",
-  "anolis-provider-sim",
-  "anolis-workbench",
-  "fluxgraph",
-];
-
-const GITHUB_API = "https://api.github.com";
+const REPOS = repos.filter((r) => r.metrics !== false);
 
 // Authenticate when a token is available (CI sets GITHUB_TOKEN) to lift the
 // unauthenticated rate limit that otherwise makes PR builds flaky.
@@ -39,21 +31,6 @@ const AUTH_HEADERS = TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {};
 // On pull-request builds, a missing downstream asset is non-fatal: skip the
 // repo rather than fail a docs-only PR for reasons outside this repo.
 const PR_BUILD = process.env.GITHUB_EVENT_NAME === "pull_request";
-
-async function fetchJson(url) {
-  const res = await fetch(url, {
-    headers: {
-      Accept: "application/vnd.github+json",
-      "User-Agent": "anolishq-docs-build",
-      "X-GitHub-Api-Version": "2022-11-28",
-      ...AUTH_HEADERS,
-    },
-  });
-  if (!res.ok) {
-    throw new Error(`HTTP ${res.status} fetching ${url}`);
-  }
-  return res.json();
-}
 
 async function fetchText(url) {
   const res = await fetch(url, {
@@ -79,20 +56,12 @@ await fs.mkdir(OUT_DIR, { recursive: true });
 
 const results = [];
 
-for (const repo of REPOS) {
-  console.log(`Fetching metrics for ${repo}...`);
+for (const r of REPOS) {
+  const repo = r.name;
+  const tagName = r.ref;
+  console.log(`Fetching metrics for ${repo} @ ${tagName}...`);
 
-  let tagName;
-  try {
-    const release = await fetchJson(
-      `${GITHUB_API}/repos/anolishq/${repo}/releases/latest`
-    );
-    tagName = release.tag_name;
-  } catch (err) {
-    if (failOrSkip(`could not fetch latest release for ${repo}: ${err.message}`) === "skip") continue;
-  }
-
-  const assetUrl = `https://github.com/anolishq/${repo}/releases/download/${tagName}/metrics.json`;
+  const assetUrl = `https://github.com/${r.repo}/releases/download/${tagName}/metrics.json`;
 
   let metricsText;
   try {
