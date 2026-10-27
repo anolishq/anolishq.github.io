@@ -1,4 +1,4 @@
-# Contribution Checklist
+# Contribution checklist
 
 Use this checklist before opening a pull request.
 
@@ -8,7 +8,7 @@ Use this checklist before opening a pull request.
 2. List touched areas:
    authored docs, aggregation scripts, reference scripts, or CI workflow.
 
-## Content Quality
+## Content quality
 
 1. Follow [Writing style](./style.md).
 2. Verify every claim the change adds or alters as described in
@@ -16,7 +16,7 @@ Use this checklist before opening a pull request.
 3. Avoid placeholder text in top-level pages (`/`, `/architecture/`, `/contributing/`, `/repos/`, `/reference/`).
 4. Ensure repo links use absolute site routes such as `/repos/anolis/`.
 
-## Local Validation
+## Local validation
 
 1. Install dependencies:
    `pnpm install --frozen-lockfile`
@@ -25,7 +25,7 @@ Use this checklist before opening a pull request.
 3. Spot-check generated output in local preview:
    `pnpm preview`
 
-## Generated Content Rules
+## Generated content rules
 
 1. Do not manually edit generated repo docs under `docs/repos/<repo>/`.
 2. Update generators or source repos instead of patching generated files.
@@ -34,9 +34,9 @@ Use this checklist before opening a pull request.
    GitHub URL, `https://github.com/anolishq/<repo>/blob/main/<path>`. Only
    `docs/` is aggregated, so a relative link out of it is a dead link here and
    fails the site build, even though it resolves in the source repo. See
-   [Repo Docs Aggregation](./aggregation-and-reference.md#repo-docs-aggregation).
+   [Repo docs aggregation](./aggregation-and-reference.md#repo-docs-aggregation).
 
-## CI and Deployment Expectations
+## CI and deployment expectations
 
 1. PR validation should pass build and link checks.
 2. Deploy should happen only from `main`.

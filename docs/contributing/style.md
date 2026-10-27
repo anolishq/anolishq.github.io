@@ -10,10 +10,12 @@ Write what the software does in the release the site publishes. Leave out
 history: "previously", "no longer", "as of 0.1.40", "unchanged from prior
 releases". Changes belong in the repository's `CHANGELOG.md`.
 
-Behaviour that is not released yet gets one line, with the issue that tracks
-it:
+Behaviour that is not released yet gets one line, linking the issue that
+tracks it:
 
-> Planned for v0.2.0 ([#123](https://github.com/anolishq/anolis/issues/123)).
+```text
+Planned for v<version> (#<issue>).
+```
 
 No banners, roadmaps or status sections.
 
@@ -64,7 +66,8 @@ page or a release where one exists. Do not copy them by hand.
 - Link to a file outside `docs/` with an absolute GitHub URL. Only `docs/` is
   published, so a relative link out of it breaks the site build. See
   [Repo docs aggregation](./aggregation-and-reference.md#repo-docs-aggregation).
-- Cite an issue number only for a known limitation the reader may hit.
+- Cite an issue number only for planned behaviour or a known limitation the
+  reader may hit.
 - Never link to a private repository or to unpublished notes.
 
 ## What is not published

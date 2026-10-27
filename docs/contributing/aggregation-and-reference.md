@@ -1,4 +1,4 @@
-# Aggregation and Reference Pipeline
+# Aggregation and reference pipeline
 
 This site is assembled from generated content plus authored pages.
 
@@ -10,7 +10,7 @@ This site is assembled from generated content plus authored pages.
 3. Pinned schema versions in `schemas/anolis-version.json`
 4. Generator scripts under `scripts/`
 
-## Schema Injection
+## Schema injection
 
 `scripts/inject-schemas.mjs` fetches pinned release artifacts from `anolishq/anolis`
 and writes them to `docs/public/schemas/anolis/` so VitePress serves them directly.
@@ -18,7 +18,7 @@ and writes them to `docs/public/schemas/anolis/` so VitePress serves them direct
 These injected files are used both as published static assets and as inputs to
 reference generation.
 
-## Repo Docs Aggregation
+## Repo docs aggregation
 
 `scripts/aggregate.mjs` does the following:
 
@@ -40,7 +40,7 @@ The source repo's own docs check builds its docs in isolation, where the
 relative link resolves, so green CI there does not mean this site builds. To
 confirm a fix, re-run a PR build here, which clones every repo fresh.
 
-## Reference Generation
+## Reference generation
 
 `scripts/generate-reference.mjs` clears `docs/reference/` and writes every
 page into it. Its inputs are pinned in `schemas/anolis-version.json`:
@@ -71,7 +71,7 @@ The generator reads the injected files and exits with an error when the
 OpenAPI file is missing, so `inject-schemas.mjs` must run first. `pnpm build`
 runs them in that order.
 
-## Full Build Flow
+## Full build flow
 
 `pnpm build` runs:
 
@@ -90,7 +90,7 @@ Pages. On a pull-request build, a release or `metrics.json` that
 `fetch-metrics.mjs` cannot fetch is skipped with a warning; on `main` it fails
 the build.
 
-## Output Directories
+## Output directories
 
 1. `docs/public/schemas/anolis/`: injected pinned schema artifacts
 2. `docs/repos/`: generated from source repositories

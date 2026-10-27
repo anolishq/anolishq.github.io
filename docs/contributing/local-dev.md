@@ -1,4 +1,4 @@
-# Local Development
+# Local development
 
 This guide covers the standard local workflow for working on `anolishq.github.io`.
 
@@ -14,7 +14,7 @@ This guide covers the standard local workflow for working on `anolishq.github.io
 pnpm install --frozen-lockfile
 ```
 
-## Run Docs Locally
+## Run docs locally
 
 ```bash
 pnpm dev
@@ -22,7 +22,7 @@ pnpm dev
 
 This starts the VitePress development server for the `docs/` directory.
 
-## Build the Site
+## Build the site
 
 ```bash
 pnpm build
@@ -31,13 +31,13 @@ pnpm build
 The steps it runs are listed in
 [Full build flow](./aggregation-and-reference.md#full-build-flow).
 
-## Preview Production Output
+## Preview production output
 
 ```bash
 pnpm preview
 ```
 
-## Common Issues
+## Common issues
 
 1. Build fails while aggregating:
    Check `data/repos.json` and confirm each repo has the configured docs path.
