@@ -1,19 +1,21 @@
-# Repos
+# Components
 
-Documentation on this site is aggregated at build time from each repository's `docs/` directory, at the release tag pinned for it in `data/repos.json`.
+Each component's documentation lives in its own repository and is published
+here at build time, from the release pinned for it in `data/repos.json`.
 
-Repository sources are configured in `data/repos.json` and copied by `scripts/aggregate.mjs`.
-
-| Repo | Description |
+| Component | What it does |
 |---|---|
-| [anolis](/repos/anolis/) | Runtime kernel — device discovery, state management, and control routing |
-| [anolis-protocol](/repos/anolis-protocol/) | ADPP — language-agnostic contract between runtime and providers |
-| [anolis-provider-bread](/repos/anolis-provider-bread/) | BREAD-over-CRUMBS hardware provider over I2C |
-| [anolis-provider-ezo](/repos/anolis-provider-ezo/) | Atlas Scientific EZO sensor provider over I2C |
-| [anolis-provider-sim](/repos/anolis-provider-sim/) | Simulation provider — virtual hardware backend for development and testing |
-| [anolis-provider-sdk](/repos/anolis-provider-sdk/) | Shared C++ library the providers are built on: transport, run loop and device model |
-| [anolis-workbench](/repos/anolis-workbench/) | Commissioning shell and system composer |
-| [fluxgraph](/repos/fluxgraph/) | Deterministic signal processing library embedded in provider-sim |
+| [anolis](/repos/anolis/) | The runtime: device discovery, state, control, automation, HTTP API, and `install.sh` for deployment |
+| [anolis-protocol](/repos/anolis-protocol/) | ADPP, the protocol between the runtime and providers, and its conformance tests |
+| [anolis-provider-sim](/repos/anolis-provider-sim/) | Simulated devices, for running Anolis without hardware |
+| [anolis-provider-bread](/repos/anolis-provider-bread/) | Provider for BREAD boards on the CRUMBS I2C bus |
+| [anolis-provider-ezo](/repos/anolis-provider-ezo/) | Provider for Atlas Scientific EZO sensor circuits over I2C |
+| [anolis-provider-sdk](/repos/anolis-provider-sdk/) | C++ library the providers are built on |
+| [anolis-workbench](/repos/anolis-workbench/) | Desktop and browser app to compose a machine's configuration, provision it, and operate it |
+| [fluxgraph](/repos/fluxgraph/) | C++ signal-graph simulation library that provider-sim can use as a physics engine |
 
-If a source repo has no `index.md` or `README.md` under its docs path, the aggregator generates a minimal stub page so
-the route still resolves.
+Not published here yet:
+[anolis-telemetry-export](https://github.com/anolishq/anolis-telemetry-export)
+exports the runtime's telemetry from InfluxDB, and
+[anolis-projects](https://github.com/anolishq/anolis-projects) holds machine
+configurations for specific deployments, such as bioreactor-v1.
