@@ -391,6 +391,12 @@ async function generateSchemasReference() {
       label: "Telemetry Timeseries",
       fallbackDesc: "JSON Schema for telemetry export time-series records.",
     },
+    {
+      file: path.join(SCHEMAS_PUBLIC, "telemetry", "telemetry-health-timeseries.schema.v1.json"),
+      url: "/schemas/anolis/telemetry/telemetry-health-timeseries.schema.v1.json",
+      label: "Telemetry Health Timeseries",
+      fallbackDesc: "JSON Schema for provider and device health time-series records.",
+    },
   ];
 
   const rows = [];

@@ -67,6 +67,11 @@ async function main() {
       output: "telemetry/telemetry-timeseries.schema.v1.json",
     },
     {
+      tarball: `anolis-${version}-telemetry-schema.tar.gz`,
+      member: "schemas/telemetry/telemetry-health-timeseries.schema.v1.json",
+      output: "telemetry/telemetry-health-timeseries.schema.v1.json",
+    },
+    {
       tarball: `anolis-${version}-runtime-http-schema.tar.gz`,
       member: "schemas/http/runtime-http.openapi.v0.yaml",
       output: "http/runtime-http.openapi.v0.yaml",
