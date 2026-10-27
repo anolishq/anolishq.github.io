@@ -3,23 +3,14 @@ import path from "path";
 import { execFileSync } from "child_process";
 import { existsSync } from "fs";
 import { fileURLToPath } from "url";
+import { repos, versionOf } from "./repos.mjs";
 
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../../");
 const TMP = path.join(ROOT, ".tmp");
 const OUT = path.join(ROOT, "docs/reference");
 const SCHEMAS_PUBLIC = path.join(ROOT, "docs/public/schemas/anolis");
-const PIN_FILE = path.join(ROOT, "schemas/anolis-version.json");
-
-const pin = JSON.parse(await fs.readFile(PIN_FILE, "utf-8"));
-const ANOLIS_VERSION = pin.anolis_version;
-const ANOLIS_PROTOCOL_VERSION = pin.anolis_protocol_version;
-
-if (!ANOLIS_VERSION) { console.error(`ERROR: anolis_version missing in ${PIN_FILE}`); process.exit(1); }
-if (!ANOLIS_PROTOCOL_VERSION) { console.error(`ERROR: anolis_protocol_version missing in ${PIN_FILE}`); process.exit(1); }
-
-const repos = JSON.parse(
-  await fs.readFile(path.join(ROOT, "data/repos.json"), "utf-8")
-);
+const ANOLIS_VERSION = versionOf("anolis");
+const ANOLIS_PROTOCOL_VERSION = versionOf("anolis-protocol");
 
 const specRepos = repos.filter(
   (r) => typeof r.specPath === "string" && r.specPath.trim().length > 0
@@ -174,13 +165,13 @@ function protoSymbols(text) {
 async function generateAnolisRuntimeReference(repo) {
   // Use the already-injected OpenAPI file rather than cloning anolis at floating
   // main. This keeps the reference page consistent with the pinned schema version
-  // declared in schemas/anolis-version.json.
+  // declared in data/repos.json.
   const injectedOpenApi = path.join(SCHEMAS_PUBLIC, "http", "runtime-http.openapi.v0.yaml");
 
   if (!(await exists(injectedOpenApi))) {
     fail(
       `Injected OpenAPI file not found at ${injectedOpenApi}.\n` +
-      `Run scripts/inject-schemas.sh first (or check schemas/anolis-version.json).`
+      `Run scripts/inject-schemas.sh first (or check data/repos.json).`
     );
   }
 
@@ -216,7 +207,7 @@ async function generateAnolisRuntimeReference(repo) {
     `Schema version: [${releaseTag}](https://github.com/${repo.repo}/releases/tag/${releaseTag}) — ` +
       `source [\`${openApiRel}\`](https://github.com/${repo.repo}/blob/${releaseTag}/${openApiRel}).`,
     "",
-    `> Pin: \`schemas/anolis-version.json\` → \`anolis_version: ${ANOLIS_VERSION}\``,
+    `> Pin: \`data/repos.json\` → \`anolis: v${ANOLIS_VERSION}\``,
     "",
     "## OpenAPI Summary",
     "",
@@ -244,7 +235,7 @@ async function generateAnolisRuntimeReference(repo) {
 
 async function generateAdppReference(repo) {
   // Clone at the pinned tag rather than floating main so the reference stays
-  // consistent with schemas/anolis-version.json.
+  // consistent with data/repos.json.
   const repoRoot = ensureCheckout(repo, ANOLIS_PROTOCOL_VERSION);
   const specRoot = path.join(repoRoot, repo.specPath);
   const releaseTag = `v${ANOLIS_PROTOCOL_VERSION}`;
@@ -306,7 +297,7 @@ async function generateAdppReference(repo) {
     `Schema version: [${releaseTag}](https://github.com/${repo.repo}/releases/tag/${releaseTag}) — ` +
       `proto path \`${repo.specPath}\`.`,
     "",
-    `> Pin: \`schemas/anolis-version.json\` → \`anolis_protocol_version: ${ANOLIS_PROTOCOL_VERSION}\``,
+    `> Pin: \`data/repos.json\` → \`anolis-protocol: v${ANOLIS_PROTOCOL_VERSION}\``,
     "",
     "## Overview",
     "",
@@ -339,7 +330,7 @@ async function generateAdppReference(repo) {
 }
 
 async function generateGenericSpecReference(repo) {
-  const repoRoot = ensureCheckout(repo);
+  const repoRoot = ensureCheckout(repo, repo.ref.replace(/^v/, ""));
   const specRoot = path.join(repoRoot, repo.specPath);
 
   if (!(await exists(specRoot))) {
@@ -357,7 +348,7 @@ async function generateGenericSpecReference(repo) {
           "|---|",
           ...files.map((f) => {
             const rel = relPosix(repoRoot, f);
-            return `| [\`${rel}\`](https://github.com/${repo.repo}/blob/main/${rel}) |`;
+            return `| [\`${rel}\`](https://github.com/${repo.repo}/blob/${repo.ref}/${rel}) |`;
           }),
         ].join("\n");
 
@@ -433,7 +424,7 @@ async function generateSchemasReference() {
     `Canonical JSON Schemas published from [anolishq/anolis](https://github.com/anolishq/anolis) ` +
       `[${releaseTag}](https://github.com/anolishq/anolis/releases/tag/${releaseTag}).`,
     "",
-    `> Pin: \`schemas/anolis-version.json\` → \`anolis_version: ${ANOLIS_VERSION}\``,
+    `> Pin: \`data/repos.json\` → \`anolis: v${ANOLIS_VERSION}\``,
     "",
     "These URLs are stable and resolve to the current pinned schema version:",
     "",
@@ -523,8 +514,8 @@ const indexBody = [
   "",
   "## Inputs",
   "",
-  `- \`anolis\`: pinned to \`v${ANOLIS_VERSION}\` via \`schemas/anolis-version.json\``,
-  `- \`anolis-protocol\`: pinned to \`v${ANOLIS_PROTOCOL_VERSION}\` via \`schemas/anolis-version.json\``,
+  `- \`anolis\`: pinned to \`v${ANOLIS_VERSION}\` via \`data/repos.json\``,
+  `- \`anolis-protocol\`: pinned to \`v${ANOLIS_PROTOCOL_VERSION}\` via \`data/repos.json\``,
   "",
 ].join("\n");
 

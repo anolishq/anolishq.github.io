@@ -67,8 +67,8 @@ Do not manually edit generated files. Change source repos or generator scripts i
 1. Build fails during aggregation:
    Confirm each repo/path in `data/repos.json` exists and is accessible.
 2. Reference generation fails:
-   Confirm required `specPath` directories exist in source repos and that the pinned
-   schema release in `schemas/anolis-version.json` is published and reachable.
+   Confirm required `specPath` directories exist in source repos at their `ref`, and
+   that the `anolis` release in `data/repos.json` is published and reachable.
 3. Dead-link build errors:
    Update links or generated content. Dead-link checks are intentionally strict.
 4. Local `pnpm` in WSL fails to find `node`:

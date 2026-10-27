@@ -44,6 +44,6 @@ pnpm preview
 2. Missing pages in sidebar:
    Confirm each section has markdown files with valid `index.md` or `README.md` entry points where expected.
 3. Build fails while injecting schemas:
-   Confirm the pinned `anolis_version` in `schemas/anolis-version.json` exists as a GitHub release with the expected schema tarball assets.
+   Confirm the `anolis` `ref` in `data/repos.json` exists as a GitHub release with the expected schema tarball assets.
 4. Broken links after docs changes:
    Run a full `pnpm build` before opening a PR.

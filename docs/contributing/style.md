@@ -74,5 +74,5 @@ page or a release where one exists. Do not copy them by hand.
 
 Design assessments, audits, reviews and release-handoff notes are working
 documents. Keep them in the repository and list them in its
-`docs/.indexignore`. Excluding listed files from the site is planned
-([#69](https://github.com/anolishq/anolishq.github.io/issues/69)).
+`docs/.indexignore`, which keeps them off the site. See
+[Repo docs aggregation](./aggregation-and-reference.md#repo-docs-aggregation).

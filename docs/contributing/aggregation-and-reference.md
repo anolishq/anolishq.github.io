@@ -4,15 +4,16 @@ This site is assembled from generated content plus authored pages.
 
 ## Inputs
 
-1. Repository metadata in `data/repos.json`
+1. `data/repos.json`: each source repository, the release tag it is published
+   from (`ref`), its docs path and, optionally, its spec path. Renovate opens a
+   pull request to bump a `ref` when that repository publishes a release.
 2. Authored site pages under `docs/`:
    `index.md`, `architecture/`, `contributing/`, and `repos/index.md`
-3. Pinned schema versions in `schemas/anolis-version.json`
-4. Generator scripts under `scripts/`
+3. Generator scripts under `scripts/`
 
 ## Schema injection
 
-`scripts/inject-schemas.mjs` fetches pinned release artifacts from `anolishq/anolis`
+`scripts/inject-schemas.mjs` fetches the schema artifacts of the `anolis` release in `data/repos.json`
 and writes them to `docs/public/schemas/anolis/` so VitePress serves them directly.
 
 These injected files are used both as published static assets and as inputs to
@@ -22,10 +23,15 @@ reference generation.
 
 `scripts/aggregate.mjs` does the following:
 
-1. Clones each repo from `data/repos.json` into `.tmp/<repo>`
-2. Copies docs from `<repo>/<docsPath>` into `docs/repos/<repo>`
-3. Excludes known tooling artifacts such as `Doxyfile`
-4. Generates a fallback `index.md` when no `index.md` or `README.md` exists
+1. Clones each repo in `data/repos.json` at its `ref` into `.tmp/<repo>`
+2. Copies docs from `<repo>/<docsPath>` into `docs/repos/<repo>`, skipping
+   `Doxyfile` and anything listed in `<docsPath>/.indexignore`
+3. Generates a fallback `index.md` when no `index.md` or `README.md` exists
+
+Each line in `.indexignore` is a path relative to `<docsPath>` (`TODO.md`,
+`rfcs/review.md`). A leading `**/` matches that name at any depth, and a
+trailing slash matches directories only. Blank lines and lines starting with
+`#` are ignored.
 
 The static `docs/repos/index.md` is preserved between runs.
 
@@ -43,18 +49,17 @@ confirm a fix, re-run a PR build here, which clones every repo fresh.
 ## Reference generation
 
 `scripts/generate-reference.mjs` clears `docs/reference/` and writes every
-page into it. Its inputs are pinned in `schemas/anolis-version.json`:
-`anolis_version` for the runtime release and `anolis_protocol_version` for the
-protocol tag.
+page into it. Its inputs are the `anolis` and `anolis-protocol` refs in
+`data/repos.json`.
 
 It writes four pages:
 
 1. `runtime-http-api.md`: the runtime HTTP API, built from the OpenAPI file
-   that `inject-schemas.mjs` downloaded from the `anolis_version` release. It
+   that `inject-schemas.mjs` downloaded from the `anolis` release. It
    does not clone `anolis`.
 2. `adpp-protocol.md`: the ADPP protocol reference, built from the `.proto`
    files under `proto/anolis/deviceprovider/v1` in `anolis-protocol`, cloned at
-   the `anolis_protocol_version` tag.
+   its `ref`.
 3. `schemas.md`: the injected JSON Schemas and the URL of the published
    OpenAPI file.
 4. `index.md`: a table linking the other pages, and the two pins.
@@ -65,7 +70,7 @@ A repo in `data/repos.json` gets a reference page only if it has a non-empty
 is read from it, because the page is built from the injected OpenAPI file. For
 `anolis-protocol` the `.proto` files are read from under its `specPath`. Any
 other repo given a `specPath` gets a generic page listing the files under that
-path, cloned from its default branch rather than a pinned tag.
+path, cloned at its `ref`.
 
 The generator reads the injected files and exits with an error when the
 OpenAPI file is missing, so `inject-schemas.mjs` must run first. `pnpm build`
@@ -78,15 +83,16 @@ runs them in that order.
 1. `node scripts/inject-schemas.mjs`
 2. `node scripts/aggregate.mjs`
 3. `node scripts/generate-reference.mjs`
-4. `node scripts/fetch-metrics.mjs`: fetches `metrics.json` from each repo's
-   latest release into `docs/public/metrics/`
+4. `node scripts/fetch-metrics.mjs`: fetches `metrics.json` from the release
+   at each repo's `ref` into `docs/public/metrics/`, except for repos marked
+   `"metrics": false`
 5. `node scripts/generate-metrics.mjs`: generates `docs/metrics.md` from the
    fetched metrics
 6. `vitepress build docs`
 
 CI runs `pnpm build` on every pull request to `main`. The deploy workflow runs
 it on every push to `main` and publishes `docs/.vitepress/dist/` to GitHub
-Pages. On a pull-request build, a release or `metrics.json` that
+Pages. On a pull-request build, a `metrics.json` that
 `fetch-metrics.mjs` cannot fetch is skipped with a warning; on `main` it fails
 the build.
 

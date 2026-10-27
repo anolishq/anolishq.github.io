@@ -2,38 +2,52 @@
   {
     "name": "anolis",
     "repo": "anolishq/anolis",
+    "ref": "v0.1.55",
     "docsPath": "docs",
     "specPath": "docs/http"
   },
   {
     "name": "anolis-protocol",
     "repo": "anolishq/anolis-protocol",
+    "ref": "v1.8.0",
     "docsPath": "docs",
     "specPath": "proto/anolis/deviceprovider/v1"
   },
   {
     "name": "anolis-provider-bread",
     "repo": "anolishq/anolis-provider-bread",
+    "ref": "v0.9.2",
     "docsPath": "docs"
   },
   {
     "name": "anolis-provider-ezo",
     "repo": "anolishq/anolis-provider-ezo",
+    "ref": "v0.4.1",
     "docsPath": "docs"
   },
   {
     "name": "anolis-provider-sim",
     "repo": "anolishq/anolis-provider-sim",
+    "ref": "v0.2.8",
     "docsPath": "docs"
+  },
+  {
+    "name": "anolis-provider-sdk",
+    "repo": "anolishq/anolis-provider-sdk",
+    "ref": "v0.4.0",
+    "docsPath": "docs",
+    "metrics": false
   },
   {
     "name": "anolis-workbench",
     "repo": "anolishq/anolis-workbench",
+    "ref": "v0.22.0",
     "docsPath": "docs"
   },
   {
     "name": "fluxgraph",
     "repo": "anolishq/fluxgraph",
+    "ref": "v1.0.6",
     "docsPath": "docs"
   }
 ]

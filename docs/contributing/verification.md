@@ -52,6 +52,5 @@ author.
 - Generate what can be generated: version strings, repository lists, API and
   protocol reference.
 - The site build fails on a dead internal link.
-
-Publishing each repository's docs from its latest release is planned
-([#69](https://github.com/anolishq/anolishq.github.io/issues/69)).
+- Each repository's docs are published from the release pinned in
+  `data/repos.json`, so the site describes software a user can install.

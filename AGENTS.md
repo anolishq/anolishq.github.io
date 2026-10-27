@@ -22,6 +22,6 @@
 - **esbuild must be allowed to run its build script** via `allowBuilds:
   esbuild: true` in `pnpm-workspace.yaml`. Without it the build silently ships a
   broken esbuild — keep this entry.
-- It **aggregates docs from ~7 downstream repos** (`scripts/aggregate.mjs` +
+- It **aggregates docs from the repos in `data/repos.json`**, each at its pinned release tag (`scripts/aggregate.mjs` +
   friends). The **metrics fetch is authenticated** (`GITHUB_TOKEN`) and
   **gracefully skips on PR builds** — don't make it hard-fail on PRs.
