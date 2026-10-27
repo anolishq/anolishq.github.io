@@ -4,7 +4,7 @@ Unified documentation site for the `anolishq` organization.
 
 This repository builds a VitePress site that combines:
 
-1. Hand-authored org-level docs (`docs/index.md`, `docs/architecture`, `docs/guides`, `docs/repos/index.md`)
+1. Hand-authored org-level docs (`docs/index.md`, `docs/architecture`, `docs/contributing`, `docs/repos/index.md`)
 2. Aggregated repository docs pulled from each repo's `/docs` directory
 3. Generated reference docs for API and protocol surfaces
 
