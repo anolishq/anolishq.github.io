@@ -6,7 +6,7 @@ This site is assembled from generated content plus authored pages.
 
 1. Repository metadata in `data/repos.json`
 2. Authored site pages under `docs/`:
-   `index.md`, `architecture/`, `guides/`, and `repos/index.md`
+   `index.md`, `architecture/`, `contributing/`, and `repos/index.md`
 3. Pinned schema versions in `schemas/anolis-version.json`
 4. Generator scripts under `scripts/`
 

@@ -10,9 +10,11 @@ Use this checklist before opening a pull request.
 
 ## Content Quality
 
-1. Verify headings and terminology are consistent with existing docs.
-2. Avoid placeholder text in top-level pages (`/`, `/architecture/`, `/guides/`, `/repos/`, `/reference/`).
-3. Ensure repo links use absolute site routes such as `/repos/anolis/`.
+1. Follow [Writing style](./style.md).
+2. Verify every claim the change adds or alters as described in
+   [Verifying docs](./verification.md), and list the evidence in the PR.
+3. Avoid placeholder text in top-level pages (`/`, `/architecture/`, `/contributing/`, `/repos/`, `/reference/`).
+4. Ensure repo links use absolute site routes such as `/repos/anolis/`.
 
 ## Local Validation
 

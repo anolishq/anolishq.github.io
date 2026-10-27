@@ -72,7 +72,7 @@ function reposSidebar(): Record<string, SidebarItem[]> {
   return result
 }
 
-/** Single-section sidebar for architecture, guides, reference. */
+/** Single-section sidebar for architecture, contributing, reference. */
 function sectionSidebar(name: string, title: string): Record<string, SidebarItem[]> {
   const items = walk(join(DOCS, name), `/${name}`)
   if (!items.length) return {}
@@ -96,15 +96,15 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Architecture', link: '/architecture/' },
-      { text: 'Guides', link: '/guides/' },
       { text: 'Repos', link: '/repos/' },
       { text: 'Reference', link: '/reference/' },
-      { text: 'Metrics', link: '/metrics' }
+      { text: 'Metrics', link: '/metrics' },
+      { text: 'Contributing', link: '/contributing/' }
     ],
 
     sidebar: {
       ...sectionSidebar('architecture', 'Architecture'),
-      ...sectionSidebar('guides', 'Guides'),
+      ...sectionSidebar('contributing', 'Contributing'),
       ...sectionSidebar('reference', 'Reference'),
       ...reposSidebar(),
     },

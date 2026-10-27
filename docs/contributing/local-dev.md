@@ -28,12 +28,8 @@ This starts the VitePress development server for the `docs/` directory.
 pnpm build
 ```
 
-Build performs four steps:
-
-1. Injects pinned schema artifacts into `docs/public/schemas/anolis/`
-2. Aggregates repo docs into `docs/repos/`
-3. Generates reference docs into `docs/reference/`
-4. Runs `vitepress build docs`
+The steps it runs are listed in
+[Full build flow](./aggregation-and-reference.md#full-build-flow).
 
 ## Preview Production Output
 
