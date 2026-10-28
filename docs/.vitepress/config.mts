@@ -78,6 +78,7 @@ const sidebar: SidebarItem[] = [
     text: 'Get started',
     link: '/get-started/',
     items: [
+      { text: 'Try it with the simulator', link: '/repos/anolis/quickstart-simulator' },
       { text: 'Install on a machine', link: '/repos/anolis/deploy/README' },
       { text: 'Build from source', link: '/repos/anolis/getting-started' },
     ],

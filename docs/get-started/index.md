@@ -2,6 +2,13 @@
 
 Pick the route that matches what you have.
 
+## Try it without hardware
+
+[Run Anolis with the simulator](/repos/anolis/quickstart-simulator): download
+the released runtime and the simulation provider, start them on your own
+computer, and read and control a simulated device over the HTTP API. Needs a
+Linux x86_64 or arm64 machine.
+
 ## Install on a machine
 
 For a Linux host that will run a real machine, such as a Raspberry Pi wired to
