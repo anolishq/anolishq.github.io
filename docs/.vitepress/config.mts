@@ -146,12 +146,7 @@ export default defineConfig({
   ],
 
   // Keep dead-link checking strict. CI runs generation before VitePress build.
-  // Matched against the link as written, so this ignores only one link:
-  // anolis's rfcs/automation-platform.md (v0.1.56 to v0.1.57) links its review,
-  // which anolis's docs/.indexignore keeps off the site. anolishq/anolis#626
-  // removes the link; drop this entry once the anolis pin is past the release
-  // that carries it.
-  ignoreDeadLinks: ['./automation-platform-review'],
+  ignoreDeadLinks: false,
 
   themeConfig: {
     logo: '/assets/brand/anolis-logo-512.png',
