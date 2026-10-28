@@ -2,7 +2,7 @@
   {
     "name": "anolis",
     "repo": "anolishq/anolis",
-    "ref": "v0.1.57",
+    "ref": "v0.2.0",
     "docsPath": "docs",
     "specPath": "docs/http"
   },
@@ -16,7 +16,7 @@
   {
     "name": "anolis-provider-bread",
     "repo": "anolishq/anolis-provider-bread",
-    "ref": "v0.9.3",
+    "ref": "v0.10.0",
     "docsPath": "docs"
   },
   {
