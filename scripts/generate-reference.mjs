@@ -3,6 +3,7 @@ import path from "path";
 import { execFileSync } from "child_process";
 import { existsSync } from "fs";
 import { fileURLToPath } from "url";
+import { protoSymbols } from "./proto-symbols.mjs";
 import { repos, versionOf } from "./repos.mjs";
 
 const ROOT = path.resolve(fileURLToPath(import.meta.url), "../../");
@@ -149,17 +150,6 @@ function parseOpenApi(yamlText) {
       .sort((a, b) => a.path.localeCompare(b.path)),
     schemas: Array.from(new Set(schemas)).sort(),
   };
-}
-
-function protoSymbols(text) {
-  const packageName = text.match(/^\s*package\s+([^;]+);/m)?.[1] ?? "unknown";
-
-  const messages = [...text.matchAll(/^\s*message\s+([A-Za-z0-9_]+)\s*\{/gm)].map((m) => m[1]);
-  const enums = [...text.matchAll(/^\s*enum\s+([A-Za-z0-9_]+)\s*\{/gm)].map((m) => m[1]);
-  const services = [...text.matchAll(/^\s*service\s+([A-Za-z0-9_]+)\s*\{/gm)].map((m) => m[1]);
-  const rpcs = [...text.matchAll(/^\s*rpc\s+([A-Za-z0-9_]+)\s*\(/gm)].map((m) => m[1]);
-
-  return { packageName, messages, enums, services, rpcs };
 }
 
 async function generateAnolisRuntimeReference(repo) {
