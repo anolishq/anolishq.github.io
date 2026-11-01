@@ -2,7 +2,7 @@
   {
     "name": "anolis",
     "repo": "anolishq/anolis",
-    "ref": "v0.8.0",
+    "ref": "v0.9.0",
     "docsPath": "docs",
     "specPath": "docs/http"
   },
