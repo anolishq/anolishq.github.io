@@ -17,7 +17,7 @@ it writes. Provisioning reaches the host over SSH and runs `install.sh` there.
 └────────┬──────────────────────┬───────────────────────────┘
          │ ADPP over stdio      │ ADPP over stdio
 ┌────────▼─────────┐   ┌────────▼───────────────────────────┐
-│ provider-sim     │   │ provider-bread, provider-ezo       │
+│ provider-sim     │   │ bread, ezo, adafruit, sparkfun     │
 │ simulated devices│   │ real devices on a Linux I2C bus    │
 └──────────────────┘   └────────────────────────────────────┘
 ```
@@ -34,9 +34,13 @@ Protocol, defined in [anolis-protocol](/repos/anolis-protocol/).
 Providers hold no orchestration policy. Modes, stops and cross-device logic live
 in the runtime. A provider may still refuse an unsafe device-level request.
 
-The three providers are built on
-[anolis-provider-sdk](/repos/anolis-provider-sdk/), which supplies the
-transport, run loop and device model.
+The sim, bread and ezo providers are built on
+[anolis-provider-sdk](/repos/anolis-provider-sdk/), and the adafruit and
+sparkfun providers on
+[anolis-provider-sdk-python](https://github.com/anolishq/anolis-provider-sdk-python).
+Each SDK supplies the transport, run loop and device model.
+[Hardware support](/get-started/hardware) lists the devices each provider
+accepts.
 
 ## Inside the runtime
 

@@ -109,6 +109,8 @@ const sidebar: SidebarItem[] = [
       { text: 'Simulated devices', link: '/repos/anolis-provider-sim/configuration' },
       { text: 'BREAD boards', link: '/repos/anolis-provider-bread/' },
       { text: 'EZO sensors', link: '/repos/anolis-provider-ezo/' },
+      { text: 'Adafruit boards', link: '/repos/anolis-provider-adafruit/' },
+      { text: 'SparkFun Qwiic boards', link: '/repos/anolis-provider-sparkfun/' },
     ],
   },
   {
