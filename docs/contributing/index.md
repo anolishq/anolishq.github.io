@@ -9,3 +9,4 @@ How docs are written, checked and published on this site.
 | [Contribution checklist](./contribution-checklist.md) | Checks to run before opening a pull request |
 | [Local development](./local-dev.md) | Run and build this site locally |
 | [Aggregation and reference pipeline](./aggregation-and-reference.md) | How repository docs and reference pages are generated |
+| [Device support file](./device-support.md) | How a provider states which device types have run on hardware |

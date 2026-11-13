@@ -13,6 +13,7 @@
     "test": "node --test scripts/*.test.mjs"
   },
   "devDependencies": {
-    "vitepress": "^1.6.4"
+    "vitepress": "^1.6.4",
+    "yaml": "^2.9.1"
   }
 }
