@@ -22,6 +22,9 @@ workbench.
 - [Deploy a remote machine over SSH](/repos/anolis/deploy/workbench-ssh)
 - [anolis-workbench](/repos/anolis-workbench/): the desktop and browser app
 
+[Hardware support](./hardware.md) lists the devices each provider accepts and
+which have run on real hardware.
+
 Read [Safety](/repos/anolis/safety) before you power any actuator.
 
 ## Build from source

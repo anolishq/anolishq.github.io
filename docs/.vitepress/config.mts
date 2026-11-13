@@ -80,6 +80,7 @@ const sidebar: SidebarItem[] = [
     items: [
       { text: 'Try it with the simulator', link: '/repos/anolis/quickstart-simulator' },
       { text: 'Install on a machine', link: '/repos/anolis/deploy/README' },
+      { text: 'Hardware support', link: '/get-started/hardware' },
       { text: 'Build from source', link: '/repos/anolis/getting-started' },
     ],
   },
