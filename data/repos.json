@@ -26,6 +26,20 @@
     "docsPath": "docs"
   },
   {
+    "name": "anolis-provider-adafruit",
+    "repo": "anolishq/anolis-provider-adafruit",
+    "ref": "v0.3.0",
+    "docsPath": "docs",
+    "metrics": false
+  },
+  {
+    "name": "anolis-provider-sparkfun",
+    "repo": "anolishq/anolis-provider-sparkfun",
+    "ref": "v0.1.0",
+    "docsPath": "docs",
+    "metrics": false
+  },
+  {
     "name": "anolis-provider-sim",
     "repo": "anolishq/anolis-provider-sim",
     "ref": "v0.3.0",

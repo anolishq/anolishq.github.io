@@ -10,7 +10,9 @@ here at build time, from the release pinned for it in `data/repos.json`.
 | [anolis-provider-sim](/repos/anolis-provider-sim/) | Simulated devices, for running Anolis without hardware |
 | [anolis-provider-bread](/repos/anolis-provider-bread/) | Provider for BREAD boards on the CRUMBS I2C bus |
 | [anolis-provider-ezo](/repos/anolis-provider-ezo/) | Provider for Atlas Scientific EZO sensor circuits over I2C |
-| [anolis-provider-sdk](/repos/anolis-provider-sdk/) | C++ library the providers are built on |
+| [anolis-provider-adafruit](/repos/anolis-provider-adafruit/) | Provider for Adafruit STEMMA QT boards and the DC & Stepper Motor HAT over I2C |
+| [anolis-provider-sparkfun](/repos/anolis-provider-sparkfun/) | Provider for SparkFun Qwiic boards over I2C |
+| [anolis-provider-sdk](/repos/anolis-provider-sdk/) | C++ library the sim, bread and ezo providers are built on |
 | [anolis-workbench](/repos/anolis-workbench/) | Desktop and browser app to compose a machine's configuration, provision it, and operate it |
 | [fluxgraph](/repos/fluxgraph/) | C++ signal-graph simulation library that provider-sim can use as a physics engine |
 

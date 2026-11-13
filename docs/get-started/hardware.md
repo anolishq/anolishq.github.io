@@ -39,7 +39,7 @@ how old that run is.
 
 ## Adafruit boards
 
-[anolis-provider-adafruit](https://github.com/anolishq/anolis-provider-adafruit)
+[anolis-provider-adafruit](/repos/anolis-provider-adafruit/)
 
 | Device | Type | Status | Detail |
 |---|---|---|---|
@@ -54,7 +54,7 @@ how old that run is.
 
 ## SparkFun Qwiic boards
 
-[anolis-provider-sparkfun](https://github.com/anolishq/anolis-provider-sparkfun)
+[anolis-provider-sparkfun](/repos/anolis-provider-sparkfun/)
 
 | Device | Type | Status | Detail |
 |---|---|---|---|
@@ -65,5 +65,6 @@ how old that run is.
 | SHT4x temperature and humidity | `sht4x` | supported | |
 | SHTC3 temperature and humidity | `shtc3` | supported | |
 
-The Adafruit and SparkFun providers list the boards they could support next in
-their `docs/coverage.md`.
+The Adafruit and SparkFun providers list the boards they could support next:
+[Adafruit](/repos/anolis-provider-adafruit/coverage),
+[SparkFun](/repos/anolis-provider-sparkfun/coverage).
