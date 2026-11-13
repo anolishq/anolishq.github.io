@@ -2,7 +2,7 @@
   {
     "name": "anolis",
     "repo": "anolishq/anolis",
-    "ref": "v0.14.0",
+    "ref": "v0.15.0",
     "docsPath": "docs",
     "specPath": "docs/http"
   },
@@ -41,7 +41,7 @@
   {
     "name": "anolis-workbench",
     "repo": "anolishq/anolis-workbench",
-    "ref": "v0.33.3",
+    "ref": "v0.33.4",
     "docsPath": "docs"
   },
   {
