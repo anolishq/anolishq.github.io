@@ -65,6 +65,32 @@ how old that run is.
 | SHT4x temperature and humidity | `sht4x` | supported | |
 | SHTC3 temperature and humidity | `shtc3` | supported | |
 
+## Arduino Modulino boards
+
+[anolis-provider-modulino](https://github.com/anolishq/anolis-provider-modulino)
+
+Neither this provider nor the driver it is built on,
+[modulino-driver](https://github.com/CameronBrooks11/modulino-driver), has run
+on a Modulino board yet; both have run only against simulated boards.
+
+| Device | Type | Status | Detail |
+|---|---|---|---|
+| Buttons | `buttons` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Buzzer | `buzzer` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Vibro vibration motor | `vibro` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Pixels RGB LEDs | `pixels` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Knob rotary encoder | `knob` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Joystick | `joystick` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Opto Relay | `opto_relay` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Latch Relay | `latch_relay` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| LED Matrix | `led_matrix` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Motors | `motors` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Thermo temperature and humidity | `thermo` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Pressure | `pressure` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Light | `light` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Movement accelerometer and gyroscope | `movement` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+| Distance time of flight | `distance` | in progress | [anolis-provider-modulino#5](https://github.com/anolishq/anolis-provider-modulino/issues/5) |
+
 The Adafruit and SparkFun providers list the boards they could support next:
 [Adafruit](/repos/anolis-provider-adafruit/coverage),
 [SparkFun](/repos/anolis-provider-sparkfun/coverage).
