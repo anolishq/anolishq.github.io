@@ -17,7 +17,13 @@ here at build time, from the release pinned for it in `data/repos.json`.
 | [fluxgraph](/repos/fluxgraph/) | C++ signal-graph simulation library that provider-sim can use as a physics engine |
 
 Not published here yet:
+[anolis-provider-sdk-python](https://github.com/anolishq/anolis-provider-sdk-python)
+and
+[anolis-provider-sdk-rust](https://github.com/anolishq/anolis-provider-sdk-rust)
+are the Python and Rust libraries for writing a provider;
+[anolis-provider-modulino](https://github.com/anolishq/anolis-provider-modulino)
+is the provider for Arduino Modulino boards, unreleased;
 [anolis-telemetry-export](https://github.com/anolishq/anolis-telemetry-export)
-exports the runtime's telemetry from InfluxDB, and
+exports the runtime's telemetry from InfluxDB; and
 [anolis-projects](https://github.com/anolishq/anolis-projects) holds machine
 configurations for specific deployments, such as bioreactor-v1.

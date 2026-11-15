@@ -35,9 +35,11 @@ Providers hold no orchestration policy. Modes, stops and cross-device logic live
 in the runtime. A provider may still refuse an unsafe device-level request.
 
 The sim, bread and ezo providers are built on
-[anolis-provider-sdk](/repos/anolis-provider-sdk/), and the adafruit and
-sparkfun providers on
-[anolis-provider-sdk-python](https://github.com/anolishq/anolis-provider-sdk-python).
+[anolis-provider-sdk](/repos/anolis-provider-sdk/), the adafruit and sparkfun
+providers on
+[anolis-provider-sdk-python](https://github.com/anolishq/anolis-provider-sdk-python),
+and the modulino provider on
+[anolis-provider-sdk-rust](https://github.com/anolishq/anolis-provider-sdk-rust).
 Each SDK supplies the transport, run loop and device model.
 [Hardware support](/get-started/hardware) lists the devices each provider
 accepts.
